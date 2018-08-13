@@ -1,0 +1,5 @@
+{
+  "presets": ["env"],
+  // Remove the line below to enable ES2015 support.
+  "retainLines": true
+}
