@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adam.</title>
+  <link rel="stylesheet" href="https://unpkg.com/tachyons@4.10.0/css/tachyons.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+
+<body>
+  <!-- Add your site or app content here -->
+  <nav class="flex-ns justify-between items-center ph5-ns mt2-ns pa3">
+    <a class="lato black fw7 i f2-ns f3 tc tl-ns pv4 no-underline db" href="index.html">Adam</a>
+    <div class="flex w-50-m w-30-ns w-100 justify-between-ns justify-around">
+      <a href="#" class="light-purple lato f3-ns f4">content</a>
+      <a href="#" class="black lato f3-ns f4">services</a>
+      <a href="#" class="black lato f3-ns f4">portfolio</a>
+    </div>
+  </nav>
+  <section class="h80 flex flex-wrap justify-start items-center ph5-ns">
+    <div>
+      <h1 class="f-subheadline-ns f1 tracked title lato pl3">Things I <span class="red">think</span> about.</h1>
+      <h2 class="lato f3 lh-copy pl3">High frequency content about the things I know about,<br class="di-ns dn"> and/or think about.</h2>
+    </div>
+  </section>
+  <section id="app">
+    <div class="flex justify-around mw6 ml0-m ml6-ns">
+      <a href="" class="lato f4 black tc" @click="selectFilter" v-for="filter in filters" :class="{ gray: !filter.active }" :id="filter.name">
+        show me <br class="dn-ns di"/>{{ filter.name }}
+      </a>
+    </div>
+    <div class="mw7 ml6-ns ml0-m pv3 mt5" v-for="post in rankedAndFilteredPosts">
+      <label style="text-transform: capitalize" class="lato gray fw7 pa2"> {{ post.source }} <span class="dib w2"></span> {{ (new Date(post.timestamp)).toDateString() }} </label>
+      <h2 class="lato pa2">{{ post.title }}</h2>
+      <p class="lato lh-copy pa2" style="white-space: pre-wrap;word-wrap:break-word;">{{ post.intro }}...<a :href="post.link" class="lato black"> READ MORE</a></p>
+    </div>
+  </section>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="scripts/main.js"></script>
+
+</html>

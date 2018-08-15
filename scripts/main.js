@@ -1,69 +1,73 @@
-/*!
- *
- *  Web Starter Kit
- *  Copyright 2015 Google Inc. All rights reserved.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *    https://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- *
- */
-/* eslint-env browser */
-(function () {
-  'use strict'
-
-  // Check to make sure service workers are supported in the current browser,
-  // and that the current page is accessed from a secure origin. Using a
-  // service worker from an insecure origin will trigger JS console errors. See
-  // http://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
-  const isLocalhost = Boolean(window.location.hostname === 'localhost' ||
-        // [::1] is the IPv6 localhost address.
-        window.location.hostname === '[::1]' ||
-        // 127.0.0.1/8 is considered localhost for IPv4.
-        window.location.hostname.match(
-          /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-        ))
-
-  if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || isLocalhost)) {
-    navigator.serviceWorker.register('service-worker.js').then(function (registration) {
-      // updatefound is fired if service-worker.js changes.
-      registration.onupdatefound = function() {
-      // updatefound is also fired the very first time the SW is installed,
-      // and there's no need to prompt for a reload at that point.
-      // So check here to see if the page is already controlled,
-      // i.e. whether there's an existing service worker.
-        if (navigator.serviceWorker.controller) {
-          // The updatefound event implies that registration.installing is set:
-          // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-container-updatefound-event
-          var installingWorker = registration.installing;
-
-          installingWorker.onstatechange = function () {
-            switch (installingWorker.state) {
-              case 'installed':
-                break
-
-              case 'redundant':
-                throw new Error('The installing ' +
-                                'service worker became redundant.');
-
-              default:
-                // Ignore
-            }
-        };
+var app = new Vue({
+  el: '#app',
+  data: {
+    filters: [
+      { name: 'medium', active: false },
+      { name: 'quora', active: false },
+      { name: 'both', active: true }
+    ],
+    posts: [] // posts will be sorted by timestamp prior to render,
+  },
+  methods: {
+    selectFilter: function (event) {
+      event.preventDefault()
+      this.filters = this.filters.map(x => Object.assign(x, { active: x.name === event.target.id }))
+    }
+  },
+  computed: {
+    rankedAndFilteredPosts: function () {
+      let filter = this.filters.find(x => x.active).name
+      console.log(filter)
+      return Object.assign([], this.posts)
+        .filter(x => filter === 'both' ? true : x.source === filter)
+        .sort((x, y) => {
+          let xt = new Date(x.timestamp)
+          let yt = new Date(y.timestamp)
+          return yt > xt ? -1 : yt < xt ? 1 : 0
+        })
+    }
+  },
+  created: function () {
+    let posts = [
+      {
+        source: 'quora',
+        title: 'Is it true that Python is harder to learn than Go? Fifth',
+        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
+        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
+        timestamp: (new Date(2018, 5, 1)).getTime()
+      },
+      {
+        source: 'quora',
+        title: 'Is it true that Python is harder to learn than Go? Fourth',
+        intro: 'If someone wins an argument, they are happy as hell. They were right. The other person was wrong. They generally do not get annoyed at anyone that was arguing with them - indeed, will often like them more than before - because they won.\nIf they lose the argument, the other person is arrogant. They’re foolish. They’re clearly not seeing it the right',
+        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
+        timestamp: (new Date(2018, 4, 1)).getTime()
+      },
+      {
+        source: 'quora',
+        title: 'Is it true that Python is harder to learn than Go? Third',
+        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
+        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
+        timestamp: (new Date(2018, 3, 1)).getTime()
+      },
+      {
+        source: 'medium',
+        title: 'Is it true that Python is harder to learn than Go? Second',
+        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
+        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
+        timestamp: (new Date(2018, 2, 1)).getTime()
+      },
+      {
+        source: 'medium',
+        title: 'Is it true that Python is harder to learn than Go? First',
+        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
+        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
+        timestamp: (new Date(2018, 1, 1)).getTime()
       }
-    };
-  }).catch(function(e) {
-    console.error('Error during service worker registration:', e);
-  });
+    ]
+    posts.forEach(x => { x.intro = x.intro.replace('\n', '\n\n') })
+    this.posts = posts
   }
+})
 
-  // Your custom JavaScript goes here
-})();
+console.log(app.data)
