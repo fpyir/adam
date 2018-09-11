@@ -25,3 +25,7 @@
 .h90 {
     min-height: 90vh;
 }
+
+.no-line-height {
+    line-height: 0px;
+}

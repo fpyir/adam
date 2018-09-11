@@ -20,54 +20,36 @@ var app = new Vue({
       console.log(filter)
       return Object.assign([], this.posts)
         .filter(x => filter === 'both' ? true : x.source === filter)
-        .sort((x, y) => {
-          let xt = new Date(x.timestamp)
-          let yt = new Date(y.timestamp)
-          return yt > xt ? -1 : yt < xt ? 1 : 0
-        })
     }
-  },
-  created: function () {
-    let posts = [
-      {
-        source: 'quora',
-        title: 'Is it true that Python is harder to learn than Go? Fifth',
-        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
-        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
-        timestamp: (new Date(2018, 5, 1)).getTime()
-      },
-      {
-        source: 'quora',
-        title: 'Is it true that Python is harder to learn than Go? Fourth',
-        intro: 'If someone wins an argument, they are happy as hell. They were right. The other person was wrong. They generally do not get annoyed at anyone that was arguing with them - indeed, will often like them more than before - because they won.\nIf they lose the argument, the other person is arrogant. They’re foolish. They’re clearly not seeing it the right',
-        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
-        timestamp: (new Date(2018, 4, 1)).getTime()
-      },
-      {
-        source: 'quora',
-        title: 'Is it true that Python is harder to learn than Go? Third',
-        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
-        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
-        timestamp: (new Date(2018, 3, 1)).getTime()
-      },
-      {
-        source: 'medium',
-        title: 'Is it true that Python is harder to learn than Go? Second',
-        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
-        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
-        timestamp: (new Date(2018, 2, 1)).getTime()
-      },
-      {
-        source: 'medium',
-        title: 'Is it true that Python is harder to learn than Go? First',
-        intro: 'I find it really, really, really hard to believe that anyone with no programming knowledge could find Go easier to learn than Python.\nLike, really hard.',
-        link: 'https://www.quora.com/Is-it-true-that-Python-is-harder-to-learn-than-Go',
-        timestamp: (new Date(2018, 1, 1)).getTime()
-      }
-    ]
-    posts.forEach(x => { x.intro = x.intro.replace('\n', '\n\n') })
-    this.posts = posts
   }
 })
 
 console.log(app.data)
+
+const url = 'https://api-apeast.graphcms.com/v1/cjkv3msuf0bg901aq8qzs7ea4/master'
+
+const query = `
+{
+  posts(
+    orderBy: timestamp_DESC
+  ) {
+    title
+    timestamp
+    source
+    link
+  }
+}
+`
+
+fetch(url, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  },
+  body: JSON.stringify({
+    query: query
+  })
+})
+  .then(r => r.json())
+  .then(data => { app.posts = data.data.posts })

@@ -19,7 +19,7 @@
     <div class="flex w-50-m w-30-ns w-100 justify-between-ns justify-around">
       <a href="#" class="light-purple lato f3-ns f4">content</a>
       <a href="#" class="black lato f3-ns f4">services</a>
-      <a href="#" class="black lato f3-ns f4">portfolio</a>
+      <a href="#" class="black lato f3-ns f4 o-30">portfolio</a>
     </div>
   </nav>
   <section class="h80 flex flex-wrap justify-start items-center ph5-ns">
@@ -29,15 +29,14 @@
     </div>
   </section>
   <section id="app">
-    <div class="flex justify-around mw6 ml0-m ml6-ns">
+    <div class="flex justify-around mw6 ml0-m ml6-ns mb5">
       <a href="" class="lato f4 black tc" @click="selectFilter" v-for="filter in filters" :class="{ gray: !filter.active }" :id="filter.name">
         show me <br class="dn-ns di"/>{{ filter.name }}
       </a>
     </div>
-    <div class="mw7 ml6-ns ml0-m pv3 mt5" v-for="post in rankedAndFilteredPosts">
-      <label style="text-transform: capitalize" class="lato gray fw7 pa2"> {{ post.source }} <span class="dib w2"></span> {{ (new Date(post.timestamp)).toDateString() }} </label>
-      <h2 class="lato pa2">{{ post.title }}</h2>
-      <p class="lato lh-copy pa2" style="white-space: pre-wrap;word-wrap:break-word;">{{ post.intro }}...<a :href="post.link" class="lato black"> READ MORE</a></p>
+    <div class="ml6-ns ml0-m pv4 flex items-start" v-for="post in rankedAndFilteredPosts">
+      <label style="text-transform: capitalize" class="lato gray fw7 pr4 pt1 lh-copy w5"> {{ post.source }} <span class="dib w1"></span> {{ (new Date(post.timestamp)).toDateString() }} </label>
+      <a class="dib lato black f3 no-underline mw7 lh-copy" :href="post.link">{{ post.title }}</a>
     </div>
   </section>
 </body>
