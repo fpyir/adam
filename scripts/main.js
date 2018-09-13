@@ -20,6 +20,7 @@ var app = new Vue({
       console.log(filter)
       return Object.assign([], this.posts)
         .filter(x => filter === 'both' ? true : x.source === filter)
+
     }
   }
 })
