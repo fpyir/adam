@@ -24,19 +24,19 @@
   </nav>
   <section class="h80 flex flex-wrap justify-start items-center ph5-ns">
     <div>
-      <h1 class="f-subheadline-ns f1 tracked title lato pl3">Things I <span class="red">think</span> about.</h1>
-      <h2 class="lato f3 lh-copy pl3">High frequency content about the things I know about,<br class="di-ns dn"> and/or think about.</h2>
+      <h1 class="f-subheadline-ns f1-ns f2 tracked title lato pl3">Things I <span class="red">think</span> about.</h1>
+      <h2 class="lato f3-ns f4 lh-copy pl3">High frequency content about the things I know about,<br class="di-ns dn"> and/or think about.</h2>
     </div>
   </section>
-  <section id="app">
-    <div class="flex justify-around mw6 ml0-m ml6-ns mb5">
+  <section id="app" class="w-100-l w-90 center">
+    <div class="flex justify-around mw6 center ma0-l ml5-l mb5 mb5-l">
       <a href="" class="lato f4 black tc" @click="selectFilter" v-for="filter in filters" :class="{ gray: !filter.active }" :id="filter.name">
         show me <br class="dn-ns di"/>{{ filter.name }}
       </a>
     </div>
-    <div class="ml6-ns ml0-m pv4 flex items-start" v-for="post in rankedAndFilteredPosts">
+    <div class="ml5-l ml4-m pv4 flex flex-column flex-row-l items-start" v-for="post in rankedAndFilteredPosts">
       <label style="text-transform: capitalize" class="lato gray fw7 pr4 pt1 lh-copy w5"> {{ post.source }} <span class="dib w1"></span> {{ (new Date(post.timestamp)).toDateString() }} </label>
-      <a class="dib lato black f3 no-underline mw7 lh-copy" :href="post.link">{{ post.title }}</a>
+      <a class="dib lato black f3-l f4 no-underline mw7 lh-copy" :href="post.link">{{ post.title }}</a>
     </div>
   </section>
 </body>
